@@ -2,15 +2,15 @@ import React from 'react'
 
 function Navbar () {
   return (
-<header className={"flex w-full z-50 transition-all duration-300"}>
+<header className={"flex w-full z-50 transition-all duration-300 bg-neutral-800"}>
   <div className="container mx-auto px-4 py-4">
     <div className="flex items-center justify-between">
       <div className="flex items-center">
         <a href="/" className="flex items-center">
-          <span className="text-orange-500 font-bold text-3xl">
+          <span className="text-purple-500 font-bold text-3xl">
             Cine
           </span>
-          <span className="text-gray-500 font-bold text-3xl">Verse</span>
+          <span className="text-white font-bold text-3xl">Verse</span>
           
         </a>
       </div>

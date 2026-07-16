@@ -7,7 +7,7 @@ function MoviesDetails() {
          backdrop-blur-sm transition-opacity overflow-y-auto"
     >
       <div
-        className="relative w-full max-w-5xl bg-neutral-800 rounded-lg shadow-xl max-h-[900vh]
+        className="relative w-full max-w-5xl bg-neutral-800 rounded-lg shadow-xl max-h-[90vh]
              overflow-hidden"
       >
         <button
@@ -191,7 +191,7 @@ function MoviesDetails() {
                 </div>
 
                 {/** Additional Details */}
-                <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="mt-12 grid grid-cols md:grid-cols-2 gap-8">
                   <div>
                     <h2 className="text-xl font-semibold text-white mb-4">
                       Details

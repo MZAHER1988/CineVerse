@@ -3,8 +3,9 @@ import HeroSection from './HeroSection'
 import MovieSlider from './MovieSlider';
 import GenreSection from './GenreSection';
 import MoviesDetails from './MoviesDetails';
+import Footer from './Footer';
 
-const MovieContent = () => {
+function MovieContent () {
   return (
     <>
     
@@ -15,12 +16,15 @@ const MovieContent = () => {
       
 
     </div>
+
+
     {/** Movie Details Section */}
-    <MoviesDetails />
+    {/** <MoviesDetails />*/}
+    
 
     </>
     
   );
 }
 
-export default MovieContent
+export default MovieContent;
