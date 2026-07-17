@@ -39,8 +39,13 @@ function Navbar () {
             </svg>
           </button>
         </div>
+
+        {/** från AI________________________________________________________________________ */}
         {/* Search results dropdown */}
-        <div
+         {/**
+          * 
+          * 
+          * <div
          className="absolute right-0 top-full mt-2 w-full bg-neutral-800 backdrop-blur-lg 
          border border-gray-600 rounded-lg shadow-lg overflow-hidden z-50">
           <ul className="divide-y divide-neutral-700 py-2">
@@ -48,8 +53,12 @@ function Navbar () {
               <button className="flex items-center p-3 w-full text-left">
                 <div className="w-10 h-10 bg-neutral-700 rounded overflow-hidden flex-shrink-0">
                   {/* Conditional Rendering */}
+
+                  {/** *
                   <img src="" alt="" className="w-full h-full object-cover" />
                   {/* If no image is available, you can render a placeholder */}
+
+                  {/**  
                   <div className="w-full h-full bg-gray-500 flex items-center justify-center">
                     <span className="text-white text-sm">No Image</span>
                   </div>
@@ -64,6 +73,11 @@ function Navbar () {
             </li>
           </ul>
         </div>
+          * 
+          */}
+
+          {/** _________________________________________________________________ */}
+        
 
         {/* Conditional Rendeing*/}
         <div className="absolute mt-2 w-72 bg-neutral-800 rounded-lg shadow-lg overflow-hidden z-50">

@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "./components/Navbar";
 import MovieContent from "./components/MovieContent";
 import Footer from "./components/Footer";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <MovieContent />
       </main>
       <Footer />
+      <ScrollToTop />
     </div>
   );
 }
