@@ -1,6 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
+import { useMovies } from "../context/MoviesContext";
 
 function HeroSection() {
+
+  const {trndingMovies, loading} = useMovies();
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+   
   return (
     <div className=" relative w-full h-screen">
       {/** Movie background */}
