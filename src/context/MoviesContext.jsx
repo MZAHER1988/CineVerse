@@ -48,7 +48,7 @@ export const MoviesProvider = ({ children }) => {
   };
 
   const closeMoviesDetails = () => {
-    selectedMovieId(null);
+    setSelectedMovieId(null);
     document.body.style.overflow = "";
   };
 

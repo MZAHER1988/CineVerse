@@ -17,11 +17,11 @@ function Navbar() {
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  });
+  }, []);
 
   return (
     <header
-      className={`flex w-full z-50 transition-all duration-300 bg-neutral-800 ${isScrolled ? "bg-neutral-900/95 backrdop-blur-md shadow-lg" : "bg-transparent"} `}
+      className={`fixed w-full z-50 transition-all duration-300 text-white bg-neutral-800 ${isScrolled ? "bg-neutral-900/95 backdrop-blur-md shadow-lg" : "bg-transparent"} `}
     >
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
@@ -67,14 +67,15 @@ function Navbar() {
             <input
               type="text"
               placeholder="Search movies..."
+              //onChange={(e) => setSearchQuery(e.target.value)}
               className="bg-neutral-800/80 text-white rounded-full px-4 py-2 pr-10 text-sm w-48 focus:w-64 
-          transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+              transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
             />
 
             {/* Search icon*/}
 
             {isSearching ? (
-              <div className="absolute right-1 top-1/2 transform -translate-y-1/2">
+              <div className="absolute right-2 top-1/2 transform -translate-y-1/2">
                 <button className="bg-purple-500/5 hover:bg-purple-600 text-white rounded-full p-2 transition-all duration-300">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -95,7 +96,7 @@ function Navbar() {
             ) : (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4 absolut right-3 top-3 text-neutral-400"
+                className="h-4 w-4 absolute right-3 top-1/2 transform -translate-y-1/2 text-neutral-400 pointer-events-none"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -183,7 +184,7 @@ function Navbar() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
+                  d="M6 18L18 6M6 6l12 12"
                 />
               </svg>
             ) : (
@@ -198,7 +199,7 @@ function Navbar() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
+                  d="M4 6h16M4 12h16M4 18h16"
                 />
               </svg>
             )}
@@ -216,7 +217,7 @@ function Navbar() {
             </a>
             <a
               href="#trending"
-              className="block py-2 text-gray-400 hover:bg-purple-400 transition-colors"
+              className="block py-2 text-white hover:bg-purple-400 transition-colors"
             >
               Trending
             </a>
@@ -239,7 +240,7 @@ function Navbar() {
               My List
             </a>
             {/** Mobile Search Bar */}
-            <div className="relative mt-4 search-container">
+            <div className="relative mt-4 search-container inline-block">
               <input
                 type="text"
                 placeholder="Search movies..."
@@ -249,22 +250,23 @@ function Navbar() {
               {/** Conditional Renderiong */}
 
               {isSearching ? (
-              <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M21 21l-4.35-4.35M17 10a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
-                </svg>
-                {/**Else */}
+                <div className="absolute right-2 top-1/2 transform -translate-y-1/2">
+                  <button className="bg-purple-500/5 hover:bg-purple-600 text-white rounded-full p-2 transition-all duration-300">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M21 21l-4.35-4.35M17 10a7 7 0 11-14 0 7 7 0 0114 0z"
+                      />
+                    </svg>
+                    {/**Else 
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-4 w-4 absolute right-3 text-neutral-400"
@@ -279,12 +281,13 @@ function Navbar() {
                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                   />
                 </svg>
-
-              </div>
+                */}
+                  </button>
+                </div>
               ) : (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4 absolute right-3 text-neutral-400"
+                  className="h-4 w-4 absolute right-3 text-neutral-400 top-1/2 transform -translate-y-1/2 pointer-events-none"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -298,11 +301,10 @@ function Navbar() {
                 </svg>
               )}
 
-
-                {/**Mobile Search Result */}
+              {/**Mobile Search Result */}
 
               {showSearchResults && searchResult && searchResult.length > 0 && (
-                                <div className="absolute mt-2 w-full bg-neutral-800 backdrop-blur-lg border border-gray-600 rounded-lg shadow-lg overflow-hidden z-50">
+                <div className="absolute mt-2 w-full bg-neutral-800 backdrop-blur-lg border border-gray-600 rounded-lg shadow-lg overflow-hidden z-50">
                   <ul className="divide-y divide-neutral-700 py-2">
                     {/* Search Result Item */}
                     <li className="hover:bg-purple-500/50">
@@ -336,22 +338,20 @@ function Navbar() {
                 </div>
               )}
 
+              {/**Conditional Rendering */}
 
-                {/**Conditional Rendering */}
-              
-              {showSearchResults && searchQuery.trim().length > 2 &&
-              (!searchResult || searchResult.length === 0) &&
-              !isSearching && (
-                <div className="absolute mt-2 w-full bg-neutral-800 rounded-lg shadow-lg overflow-hidden z-50">
-                  <div className="p-4 text-center text-neutral-400 text-sm">
-                    No results found.
+              {showSearchResults &&
+                searchQuery.trim().length > 2 &&
+                (!searchResult || searchResult.length === 0) &&
+                !isSearching && (
+                  <div className="absolute mt-2 w-full bg-neutral-800 rounded-lg shadow-lg overflow-hidden z-50">
+                    <div className="p-4 text-center text-neutral-400 text-sm">
+                      No results found.
+                    </div>
                   </div>
-                </div>
-              )}
-
-              </div>
+                )}
             </div>
-
+          </div>
         )}
       </div>
     </header>

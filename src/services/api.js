@@ -14,6 +14,7 @@ export const fetchTrendingMovies = async () =>{
 
         const data = await response.json();
         return data.results;
+        
 
     }catch (error) {
         console.error('Error Fetching trending movies', error);
@@ -29,6 +30,8 @@ export const fetchPopularMovies = async () =>{
         );
 
         const data = await response.json();
+
+        console.log(data);
         return data.results;
 
     }catch (error) {
@@ -119,7 +122,7 @@ export const searchMovies = async (query) =>{
 };
 
 export const getImageURL = (path, size = "original") => {
-    if (!path) {
+    if (!path || path === "" || path.trim() === "") {
         return "https://via.placeholder.com/400x600?text=No+Image+Available";        
     }
     return `https://image.tmdb.org/t/p/${size}${path}`;
