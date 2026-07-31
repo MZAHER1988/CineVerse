@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useMovies } from "../context/MoviesContext";
+import { searchMovies, getImageURL } from "../services/api";
 
 function Navbar() {
+  const { openMoviesDetails } = useMovies();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -19,19 +21,82 @@ function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    const handleClickOutSide = (e) => {
+    if (
+      searchContainerRef.current &&
+      !searchContainerRef.current.contains(e.target)
+    ) {
+      setShowSearchResults(false);
+    }
+  };
+  window.addEventListener("mousedown", handleClickOutSide);
+  return () => window.removeEventListener("mousedown", handleClickOutSide);
+    
+  }, []);
+
+  useEffect(() => {
+    const handleSearch = async () => {
+      if (searchQuery.trim().length > 2) {
+        setIsSearching(true);
+        try {
+          const result = await searchMovies(searchQuery);
+          setSearchResult(result ? result.slice(0, 5) : []);
+        } catch (error) {
+          console.error("Error searching movies: ", error);
+        } finally {
+          setIsSearching(false);
+          setShowSearchResults(true);
+        }
+      } else {
+        setSearchResult([]);
+        setShowSearchResults(false);
+      }
+    };
+
+    const debounceTimer = setTimeout(() => {
+      handleSearch();
+    }, 500);
+
+    return () => {
+      clearTimeout(debounceTimer);
+    };
+  }, [searchQuery]);
+
+  const handleSearchFocus = () => {
+    if (searchQuery.trim().length > 2 && searchResult.length > 0) {
+      setShowSearchResults(true);
+    }
+  };
+
+  
+
+  const handleMovieSelect = (movieId) => {
+    if (openMoviesDetails) {
+      openMoviesDetails(movieId);
+
+    }
+    
+    setShowSearchResults(false);
+    setSearchQuery("");
+    setIsMobileMenuOpen(false);
+  };
+
   return (
     <header
-      className={`fixed w-full z-50 transition-all duration-300 text-white bg-neutral-800 ${isScrolled ? "bg-neutral-900/95 backdrop-blur-md shadow-lg" : "bg-transparent"} `}
+      className={`fixed w-full z-50 transition-all duration-300 text-white bg-neutral-800 
+        ${isScrolled ? "bg-neutral-900/95 backdrop-blur-md shadow-lg" : "bg-transparent"} `}
     >
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <a href="/" className="flex items-center">
-              <span className="text-purple-500 font-bold text-3xl">Cine</span>
-              <span className="text-white font-bold text-3xl">Verse</span>
+              <span className="text-purple-500 font-bold text-3xl">
+                Cine<span className="text-white font-bold text-3xl">Verse</span>
+              </span>
             </a>
           </div>
-          {/* Navigation Links */}
+          {/* Desktop Navigation Links */}
           <nav className="hidden md:flex space-x-8">
             <a
               href="#trending"
@@ -59,97 +124,114 @@ function Navbar() {
             </a>
           </nav>
 
-          {/* Search Bar */}
+          {/* Desktop Search Bar */}
           <div
             className="hidden md:block relative search-container"
             ref={searchContainerRef}
           >
-            <input
-              type="text"
-              placeholder="Search movies..."
-              //onChange={(e) => setSearchQuery(e.target.value)}
-              className="bg-neutral-800/80 text-white rounded-full px-4 py-2 pr-10 text-sm w-48 focus:w-64 
-              transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
-            />
+            <div className="relative">
+              <input
+                type="text"
+                value={searchQuery}
+                placeholder="Search movies..."
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onFocus={handleSearchFocus}
+                className="bg-neutral-800/80 text-white rounded-full px-4 py-2 pr-10 text-sm w-48 focus:w-64 
+                transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+              />
 
-            {/* Search icon*/}
+              {/* Search icon*/}
 
-            {isSearching ? (
-              <div className="absolute right-2 top-1/2 transform -translate-y-1/2">
-                <button className="bg-purple-500/5 hover:bg-purple-600 text-white rounded-full p-2 transition-all duration-300">
+              {isSearching ? (
+                <div className="absolute right-2 top-1/2 transform -translate-y-1/2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4"
+                    className="h-4 w-4 text-neutral-400"
                     fill="none"
                     viewBox="0 0 24 24"
-                    stroke="currentColor"
+                    //stroke="currentColor"
                   >
+                    <circle
+                      className="opacity-25"
+                      cx={12}
+                      cy={12}
+                      r={10}
+                      stroke="currentColor"
+                      strokeWidth={4}
+                    ></circle>
+
                     <path
+                      className="opacity-75"
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth={2}
                       d="M21 21l-4.35-4.35M17 10a7 7 0 11-14 0 7 7 0 0114 0z"
                     />
                   </svg>
-                </button>
-              </div>
-            ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4 absolute right-3 top-1/2 transform -translate-y-1/2 text-neutral-400 pointer-events-none"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-            )}
+                </div>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4 absolute right-3 top-1/2 transform -translate-y-1/2 text-neutral-400 pointer-events-none"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+              )}
+            </div>
 
-            {/** från AI________________________________________________________________________ */}
             {/* Search results dropdown */}
 
             {showSearchResults && searchResult && searchResult.length > 0 && (
               <div className="absolute mt-2 w-72 bg-neutral-800 rounded-lg shadow-lg overflow-hidden z-50">
-                <div
-                  className="absolute right-0 top-full mt-2 w-full bg-neutral-800 backdrop-blur-lg 
-                border border-gray-600 rounded-lg shadow-lg overflow-hidden z-50"
-                >
+              
                   <ul className="divide-y divide-neutral-700 py-2">
-                    <li className="px-4 py-2 hover:bg-purple-500/50 cursor-pointer">
-                      <button className="flex items-center p-3 w-full text-left">
-                        <div className="w-10 h-10 bg-neutral-700 rounded overflow-hidden flex-shrink-0">
-                          {/* Conditional Rendering */}
+                    {searchResult.map((movie) => {
+                      return (
+                        <li key={movie.id} className="px-4 py-2 hover:bg-purple-500/50 cursor-pointer">
+                          <button
+                            className="flex items-center p-3 w-full text-left"
+                            onClick={() => handleMovieSelect(movie.id)}
+                          >
+                            <div className="w-10 h-10 bg-neutral-700 rounded overflow-hidden flex-shrink-0">
+                              {/* Conditional Rendering */}
+                              {movie.poster_path ? (
+                                <img
+                                  src={getImageURL(movie.poster_path, "w92")}
+                                  alt=""
+                                  className="w-full h-full object-cover"
+                                />
+                              ) : (
+                                <div className="w-full h-full bg-gray-500 flex items-center justify-center">
+                                  No Image
+                                </div>
+                              )}
+                            </div>
 
-                          <img
-                            src=""
-                            alt=""
-                            className="w-full h-full object-cover"
-                          />
-                          {/* If no image is available, you can render a placeholder */}
+                            {/* If no image is available, you can render a placeholder */}
 
-                          <div className="w-full h-full bg-gray-500 flex items-center justify-center">
-                            <span className="text-white text-sm">No Image</span>
-                          </div>
-
-                          <div className="ml-3 flex-1">
-                            <p className="text-sm text-white font-medium truncate">
-                              Movie Title
-                            </p>
-                            <p className="text-neutral-400 text-xs">
-                              Movie Release Date
-                            </p>
-                          </div>
-                        </div>
-                      </button>
-                    </li>
+                            <div className="ml-3 flex-1">
+                              <p className="text-sm text-white font-medium truncate">
+                                {movie.title}
+                              </p>
+                              <p className="text-neutral-400 text-xs">
+                                {movie.release_date?.split("-")[0] || "N/A"}
+                              </p>
+                            </div>
+                          </button>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
-              </div>
+              
             )}
 
             {/** Conditional Rendering */}
@@ -165,6 +247,7 @@ function Navbar() {
                 </div>
               )}
           </div>
+
           {/* Mobile Menu Button*/}
           <button
             className="md:hidden text-orange-700"
@@ -240,9 +323,15 @@ function Navbar() {
               My List
             </a>
             {/** Mobile Search Bar */}
-            <div className="relative mt-4 search-container inline-block">
+            <div
+              className="relative mt-4 search-container inline-block"
+              ref={searchContainerRef}
+            >
               <input
                 type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onFocus={handleSearchFocus}
                 placeholder="Search movies..."
                 className="bg-neutral-800/80 text-white rounded-full px-4 py-2 pr-10 text-sm w-48 focus:w-64 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
               />
@@ -251,38 +340,30 @@ function Navbar() {
 
               {isSearching ? (
                 <div className="absolute right-2 top-1/2 transform -translate-y-1/2">
-                  <button className="bg-purple-500/5 hover:bg-purple-600 text-white rounded-full p-2 transition-all duration-300">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4 text-neutral-400"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx={12}
+                      cy={12}
+                      r={10}
                       stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M21 21l-4.35-4.35M17 10a7 7 0 11-14 0 7 7 0 0114 0z"
-                      />
-                    </svg>
-                    {/**Else 
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4 absolute right-3 text-neutral-400"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
-                </svg>
-                */}
-                  </button>
+                      strokeWidth={4}
+                    ></circle>
+
+                    <path
+                      className="opacity-75"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M21 21l-4.35-4.35M17 10a7 7 0 11-14 0 7 7 0 0114 0z"
+                    />
+                  </svg>
                 </div>
               ) : (
                 <svg
@@ -307,33 +388,34 @@ function Navbar() {
                 <div className="absolute mt-2 w-full bg-neutral-800 backdrop-blur-lg border border-gray-600 rounded-lg shadow-lg overflow-hidden z-50">
                   <ul className="divide-y divide-neutral-700 py-2">
                     {/* Search Result Item */}
-                    <li className="hover:bg-purple-500/50">
-                      Search Result 1
-                      <button className="flex items-center p-3 w-full text-left">
-                        <div className="w-10 h-14 bg-neutral-700 rounded-full overflow-hidden flex-shrink-0">
-                          {/* Conditional Rendering */}
-                          <img
-                            src=""
-                            alt=""
-                            className="w-full h-full object-cover"
-                          />
-                          {/* If no image is available, you can render a placeholder */}
-                          <div className="w-full h-full bg-gray-500 flex items-center justify-center">
-                            <span className="text-gray-400 text-sm">
-                              No Image
-                            </span>
-                          </div>
-                        </div>
-                        <div className="ml-3 flex-1">
-                          <p className="text-sm text-white font-medium truncate">
-                            Movie Title
-                          </p>
-                          <p className="text-neutral-400 text-xs">
-                            Movie Release Date
-                          </p>
-                        </div>
-                      </button>
-                    </li>
+                    {searchResult.map((movie) => {
+                      return (
+                        <li key={movie.id} className="hover:bg-neutral-700">
+                          <button className="flex items-center p-3 w-full text-left">
+                            <div className="w-10 h-14 bg-neutral-700 rounded-full overflow-hidden flex-shrink-0">
+                              {/* Conditional Rendering */}
+                              <img
+                                src={getImageURL(movie.poster_path, "w92")}
+                                alt=""
+                                className="w-full h-full object-cover"
+                              />
+                              {/* If no image is available, you can render a placeholder */}
+                              <div className="w-full h-full bg-gray-500 flex items-center justify-center">
+                                No Image
+                              </div>
+                            </div>
+                            <div className="ml-3 flex-1">
+                              <p className="text-sm text-white font-medium truncate">
+                                {movie.title}
+                              </p>
+                              <p className="text-neutral-400 text-xs">
+                                {movie.release_date?.split("-")[0] || "N/A"}
+                              </p>
+                            </div>
+                          </button>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
               )}
