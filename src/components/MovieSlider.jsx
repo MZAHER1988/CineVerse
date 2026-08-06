@@ -3,7 +3,7 @@ import { BottleWine, Subscript } from "lucide-react";
 import { getImageURL } from "../services/api";
 import { useMovies } from "../context/MoviesContext";
 
-function MovieSlider({ title, movies, subtitle = "" }) {
+function MovieSlider({ title, movies, subtitle, id = "" }) {
   const sliderRef = useRef(null);
   const [isScrolling, setIsScrolling] = useState(false);
   const [hoverMovieId, setHoverMovieId] = useState(null);
@@ -42,7 +42,7 @@ function MovieSlider({ title, movies, subtitle = "" }) {
   }
 
   return (
-    <section className="py-12" id="">
+    <section className="py-12" id={id}>
       <div className="container mx-auto px-4">
         <div className="flex items-baseline justify-between mb-8">
           <div className="text-2xl md:text-3xl font-bold text-white">
@@ -52,7 +52,7 @@ function MovieSlider({ title, movies, subtitle = "" }) {
               <p className="text-neutral-400 text-sm mt-1">{subtitle}</p>
             )}
           </div>
-          <div className="flex space-x-2">
+          <div className="hidden md:flex space-x-2">
             <button
               className="bg-neutral-800/70 hover:bg-neutral-700 text-white p-2 rounded-full transition-all"
               aria-label="Scroll Left"
@@ -99,9 +99,9 @@ function MovieSlider({ title, movies, subtitle = "" }) {
         {/** Movie Slider */}
         <div className="relative">
           <div
-            className="flex space-x-4 overflow-x-hidden scrollbar-hide pb-4 snap-x"
+            className="flex space-x-4 overflow-x-auto scrollbar-hide pb-4 snap-x"
             ref={sliderRef}
-            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none"}}
           >
             {/** Conditional Rendering */}
             {movies.map((movie) => {

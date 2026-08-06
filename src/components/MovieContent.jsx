@@ -69,6 +69,7 @@ function MovieContent() {
           subtitle="Stay update with what everyone's watching"
           movies={trendingMovies}
           id="trending"
+          
         />
         <MovieSlider
           title="Popular Movies"

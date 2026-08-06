@@ -23,16 +23,15 @@ function Navbar() {
 
   useEffect(() => {
     const handleClickOutSide = (e) => {
-    if (
-      searchContainerRef.current &&
-      !searchContainerRef.current.contains(e.target)
-    ) {
-      setShowSearchResults(false);
-    }
-  };
-  window.addEventListener("mousedown", handleClickOutSide);
-  return () => window.removeEventListener("mousedown", handleClickOutSide);
-    
+      if (
+        searchContainerRef.current &&
+        !searchContainerRef.current.contains(e.target)
+      ) {
+        setShowSearchResults(false);
+      }
+    };
+    window.addEventListener("mousedown", handleClickOutSide);
+    return () => window.removeEventListener("mousedown", handleClickOutSide);
   }, []);
 
   useEffect(() => {
@@ -69,16 +68,34 @@ function Navbar() {
     }
   };
 
-  
-
   const handleMovieSelect = (movieId) => {
-    if (openMoviesDetails) {
-      openMoviesDetails(movieId);
+    openMoviesDetails(movieId);
 
-    }
-    
     setShowSearchResults(false);
     setSearchQuery("");
+    setIsMobileMenuOpen(false);
+  };
+
+
+  const handleLinkClick = (e, href) => {
+    e.preventDefault();
+    const target = document.querySelector(href);
+
+    // Smoothly scroll to the target element with an offset to avoid it being hidden under the navbar
+    if (target) {
+      const Offset = -20;
+      const elementPosition = target.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.scrollY + Offset;
+
+      // Smooth scrolling
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    }
+
+    // Update URL without reloading the page
+    window.history.replaceState(null, "", href);
     setIsMobileMenuOpen(false);
   };
 
@@ -90,7 +107,8 @@ function Navbar() {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <a href="/" className="flex items-center">
+            <a href="home" className="flex items-center"
+            onClick={(e) => handleLinkClick(e, "#home")}>
               <span className="text-purple-500 font-bold text-3xl">
                 Cine<span className="text-white font-bold text-3xl">Verse</span>
               </span>
@@ -100,24 +118,28 @@ function Navbar() {
           <nav className="hidden md:flex space-x-8">
             <a
               href="#trending"
+              onClick={(e) => handleLinkClick(e, "#trending")}
               className="hover:text-purple-400 transition-all font-medium"
             >
               Trending
             </a>
             <a
               href="#popular"
+              onClick={(e) => handleLinkClick(e, "#popular")}
               className="hover:text-purple-400 transition-all font-medium"
             >
               Popular
             </a>
             <a
               href="#top-rated"
+              onClick={(e) => handleLinkClick(e, "#top-rated")}
               className=" hover:text-purple-400 transition-all font-medium"
             >
               Top Rated
             </a>
             <a
               href="#my-list"
+              onClick={(e) => handleLinkClick(e, "#my-list")}
               className="hover:text-purple-400 transition-all font-medium"
             >
               My List
@@ -191,47 +213,48 @@ function Navbar() {
 
             {showSearchResults && searchResult && searchResult.length > 0 && (
               <div className="absolute mt-2 w-72 bg-neutral-800 rounded-lg shadow-lg overflow-hidden z-50">
-              
-                  <ul className="divide-y divide-neutral-700 py-2">
-                    {searchResult.map((movie) => {
-                      return (
-                        <li key={movie.id} className="px-4 py-2 hover:bg-purple-500/50 cursor-pointer">
-                          <button
-                            className="flex items-center p-3 w-full text-left"
-                            onClick={() => handleMovieSelect(movie.id)}
-                          >
-                            <div className="w-10 h-10 bg-neutral-700 rounded overflow-hidden flex-shrink-0">
-                              {/* Conditional Rendering */}
-                              {movie.poster_path ? (
-                                <img
-                                  src={getImageURL(movie.poster_path, "w92")}
-                                  alt=""
-                                  className="w-full h-full object-cover"
-                                />
-                              ) : (
-                                <div className="w-full h-full bg-gray-500 flex items-center justify-center">
-                                  No Image
-                                </div>
-                              )}
-                            </div>
+                <ul className="divide-y divide-neutral-700 py-2">
+                  {searchResult.map((movie) => {
+                    return (
+                      <li
+                        key={movie.id}
+                        className="px-4 py-2 hover:bg-purple-500/50 cursor-pointer"
+                      >
+                        <button
+                          className="flex items-center p-3 w-full text-left"
+                          onClick={() => handleMovieSelect(movie.id)}
+                        >
+                          <div className="w-10 h-10 bg-neutral-700 rounded overflow-hidden flex-shrink-0">
+                            {/* Conditional Rendering */}
+                            {movie.poster_path ? (
+                              <img
+                                src={getImageURL(movie.poster_path, "w92")}
+                                alt=""
+                                className="w-full h-full object-cover"
+                              />
+                            ) : (
+                              <div className="w-full h-full bg-gray-500 flex items-center justify-center">
+                                No Image
+                              </div>
+                            )}
+                          </div>
 
-                            {/* If no image is available, you can render a placeholder */}
+                          {/* If no image is available, you can render a placeholder */}
 
-                            <div className="ml-3 flex-1">
-                              <p className="text-sm text-white font-medium truncate">
-                                {movie.title}
-                              </p>
-                              <p className="text-neutral-400 text-xs">
-                                {movie.release_date?.split("-")[0] || "N/A"}
-                              </p>
-                            </div>
-                          </button>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              
+                          <div className="ml-3 flex-1">
+                            <p className="text-sm text-white font-medium truncate">
+                              {movie.title}
+                            </p>
+                            <p className="text-neutral-400 text-xs">
+                              {movie.release_date?.split("-")[0] || "N/A"}
+                            </p>
+                          </div>
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
             )}
 
             {/** Conditional Rendering */}
@@ -291,33 +314,38 @@ function Navbar() {
 
         {/* Mobile Navigation Conditional Rendering */}
         {isMobileMenuOpen && (
-          <div className="md:hidden mt-4 pb-4 space-y-4">
+          <div className="md:hidden mt-4 pb-4 space-y-3 bg-neutral-900/90 p-4 rounded-xl">
             <a
-              href="#"
+              href="#home"
+              onClick={(e) => handleLinkClick(e, "#home")}
               className="block py-2 text-white hover:bg-purple-400 transition-colors"
             >
               Home
             </a>
             <a
               href="#trending"
+              onClick={(e) => handleLinkClick(e, "#trending")}
               className="block py-2 text-white hover:bg-purple-400 transition-colors"
             >
               Trending
             </a>
             <a
               href="#popular"
+              onClick={(e) => handleLinkClick(e, "#popular")}
               className="block py-2 text-white hover:bg-purple-400 transition-colors"
             >
               Popular
             </a>
             <a
               href="#top-rated"
+              onClick={(e) => handleLinkClick(e, "#top-rated")}
               className="block py-2 text-white hover:bg-purple-400 transition-colors"
             >
               Top Rated
             </a>
             <a
               href="#my-list"
+              nClick={(e) => handleLinkClick(e, "#my-list")}
               className="block py-2 text-white hover:bg-purple-400 transition-colors"
             >
               My List
@@ -391,7 +419,10 @@ function Navbar() {
                     {searchResult.map((movie) => {
                       return (
                         <li key={movie.id} className="hover:bg-neutral-700">
-                          <button className="flex items-center p-3 w-full text-left">
+                          <button
+                            className="flex items-center p-3 w-full text-left"
+                            onClick={() => handleMovieSelect(movie.id)}
+                          >
                             <div className="w-10 h-14 bg-neutral-700 rounded-full overflow-hidden flex-shrink-0">
                               {/* Conditional Rendering */}
                               <img

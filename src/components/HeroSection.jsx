@@ -41,7 +41,7 @@ function HeroSection() {
   };
 
   return (
-    <div className=" relative w-full h-screen">
+    <div id="home" className=" relative w-full h-screen">
       {/** Movie background */}
       <div
         className={`absolute inset-0 bg-cover bg-center bg-neutral-900 transition-all 
