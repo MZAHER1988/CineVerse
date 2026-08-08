@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useMovies } from "../context/MoviesContext";
 import { getImageURL } from "../services/api";
 
-
 function HeroSection() {
   const { trendingMovies, loading } = useMovies();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const {openMoviesDetails} = useMovies();
+  const { openMoviesDetails } = useMovies();
 
   const featuredMovies = trendingMovies.slice(0, 10);
 
@@ -24,7 +23,10 @@ function HeroSection() {
       }, 500);
     }, 8000);
 
-    return () => {clearInterval(intervall); clearTimeout(timeoutId);};
+    return () => {
+      clearInterval(intervall);
+      clearTimeout(timeoutId);
+    };
   }, [loading, featuredMovies.length]);
 
   if (loading || featuredMovies.length === 0) {
@@ -60,7 +62,6 @@ function HeroSection() {
         {/** Movie content */}
         <div className="absolute inset-0 flex items-center container mx-auto px-4 md:px-8 lg:px-16">
           <div className="max-w-3xl">
-            {/** Movie info */}
             <div
               className={`transition-all duration-700 ${isTransitioning ? "opacity-0" : "opacity-100"}`}
             >
@@ -109,10 +110,9 @@ function HeroSection() {
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <button
-                  
                     className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg
                   flex items-center gap-2 transition-all"
-                  onClick={() => openMoviesDetails(currentMovie.id)}
+                    onClick={() => openMoviesDetails(currentMovie.id)}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
