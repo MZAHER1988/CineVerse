@@ -34,7 +34,7 @@ function MovieSlider({ title, movies, subtitle, id = "" }) {
 
   const handleMovieClick = (moviesId) => {
     openMoviesDetails(moviesId);
-    console.log("working");
+    //console.log("working");
   };
 
   if (!movies || movies.length === 0) {
@@ -157,6 +157,7 @@ function MovieSlider({ title, movies, subtitle, id = "" }) {
                           <button
                             className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 px-4 rounded-md
                               flex items-center justify-center gap-1 transition-all text-sm"
+                              onClick={() => openMoviesDetails(currentMovie.id)}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"

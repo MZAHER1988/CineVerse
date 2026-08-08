@@ -1,29 +1,90 @@
-# React + Vite
+# CineVerse
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+CineVerse is a modern movie discovery web app built with React and Vite. It lets users browse trending, popular, top-rated, and genre-based movies, while also searching for titles and opening detailed movie information.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Browse featured movies on the hero section
+- Explore movies by category: trending, popular, and top rated
+- Discover titles by genre
+- Search movies directly from the navbar
+- Open a detailed movie modal with synopsis, rating, runtime, and production info
+- Responsive layout for desktop and mobile
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React 19
+- Vite
+- Tailwind CSS
+- TMDB API
+- Lucide React icons
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Prerequisites
 
+- Node.js 18+
+- npm or pnpm
 
+### Installation
 
+1. Clone the repository
+   ```bash
+   git clone https://github.com/your-username/cineverse.git
+   cd cineverse
+   ```
+
+2. Install dependencies
+   ```bash
+   npm install
+   ```
+
+3. Create a local environment file
+   ```bash
+   cp .env.example .env
+   ```
+
+4. Add your TMDB API key to the environment file
+   ```env
+   VITE_TMDB_API_KEY=your_tmdb_api_key_here
+   VITE_TMDB_BASE_URL=https://api.themoviedb.org/3
+   ```
+
+5. Start the development server
+   ```bash
+   npm run dev
+   ```
+
+## Available Scripts
+
+- `npm run dev` — start the development server
+- `npm run build` — build the app for production
+- `npm run preview` — preview the production build locally
+- `npm run lint` — run ESLint checks
+
+## Project Structure
+
+```text
+src/
+  components/      # UI components such as navbar, hero section, sliders, and modal
+  context/         # Global movie state and provider
+  services/        # API calls and helpers
+  App.jsx          # Main app entry point
+```
 
 ## Environment Variables
 
-Create a `.env` file in the project root and add your TMDB API key:
+The app expects the following variables:
 
-```env
-VITE_TMDB_API_KEY=your_tmdb_api_key_here
-```
+- `VITE_TMDB_API_KEY` — your TMDB API access key
+- `VITE_TMDB_BASE_URL` — TMDB API base URL
 
-You can get a free API key from TMDB.
+You can get a free API key from the TMDB website.
+
+## Notes
+
+This project uses the TMDB API for movie data. Make sure your API key is valid and that the environment variables are configured correctly before running the app.
+
+## License
+
+This project is for educational and personal use.

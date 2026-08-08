@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useMovies } from "../context/MoviesContext";
 import { getImageURL } from "../services/api";
 
+
 function HeroSection() {
   const { trendingMovies, loading } = useMovies();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
-
+  const {openMoviesDetails} = useMovies();
 
   const featuredMovies = trendingMovies.slice(0, 10);
 
@@ -82,13 +83,7 @@ function HeroSection() {
                   </div>
                 )}
                 {/** Conditinal Rendering Close */}
-                {/**
-                <span className="text-neutral-400">
-                  {currentMovie.runtime
-                    ? `${Math.floor(currentMovie.runtime / 60)}h ${currentMovie.runtime % 60}m`
-                    : ""}
-                </span>
-                **/}
+
                 <span className="text-neutral-400 text-sm">
                   {currentMovie.release_date?.substring(0, 4) || "N/A"}
                 </span>
@@ -111,7 +106,12 @@ function HeroSection() {
                   {currentMovie.overview}
                 </p>
                 <div className="flex flex-wrap gap-4">
-                  <button className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-all">
+                  <button
+                  
+                    className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg
+                  flex items-center gap-2 transition-all"
+                  onClick={() => openMoviesDetails(currentMovie.id)}
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="w-5 h-5"
@@ -120,7 +120,8 @@ function HeroSection() {
                     >
                       <path
                         fillRule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586V7a1 1 0 10-2 0v6a1 1 0 001 1h6a1 1 0 100-2h-3.586l3.293-3.293z"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 
+                          001.555.832l3-2a1 1 0 000-1.664l-3-2z"
                         clipRule="evenodd"
                       />
                     </svg>
@@ -132,10 +133,11 @@ function HeroSection() {
                       className="w-5 h-5"
                       fill="currentColor"
                       viewBox="0 0 20 20"
+                      stroke="currentColor"
                     >
                       <path
                         fillRule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586V7a1 1 0 10-2 0v6a1 1 0 001 1h6a1 1 0 100-2h-3.586l3.293-3.293z"
+                        d="M12 4v16m8-8H4"
                         clipRule="evenodd"
                       />
                     </svg>
@@ -151,21 +153,21 @@ function HeroSection() {
       <div className="absolute bottom-10 left-0 right-0 flex justify-center gap-2 z-10">
         {featuredMovies.map((_, index) => {
           return (
-          <button key={index} onClick={() => {
-            setIsTransitioning(true);
-            setTimeout(() => {
-              setCurrentSlide(index);
-              setIsTransitioning(false);
-            }, 500)
-
-          }}
-           className={`h-1.5 rounded-full transition-all ${
-            currentSlide === index
-            ? "w-8 bg-purple-500"
-            : "w-4 bg-purple-600/50"
-          }`}>
-
-          </button>
+            <button
+              key={index}
+              onClick={() => {
+                setIsTransitioning(true);
+                setTimeout(() => {
+                  setCurrentSlide(index);
+                  setIsTransitioning(false);
+                }, 500);
+              }}
+              className={`h-1.5 rounded-full transition-all ${
+                currentSlide === index
+                  ? "w-8 bg-purple-500"
+                  : "w-4 bg-purple-600/50"
+              }`}
+            ></button>
           );
         })}
       </div>

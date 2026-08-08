@@ -157,6 +157,7 @@ function Navbar() {
                 value={searchQuery}
                 placeholder="Search movies..."
                 onChange={(e) => setSearchQuery(e.target.value)}
+                aria-label="Search movies"
                 onFocus={handleSearchFocus}
                 className="bg-neutral-800/80 text-white rounded-full px-4 py-2 pr-10 text-sm w-48 focus:w-64 
                 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
@@ -273,8 +274,10 @@ function Navbar() {
 
           {/* Mobile Menu Button*/}
           <button
-            className="md:hidden text-orange-700"
+            className="md:hidden text-purple-500"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle mobile menu"
+            aria-expanded={isMobileMenuOpen} 
           >
             {/* Hamburger Icon */}
 
@@ -345,7 +348,7 @@ function Navbar() {
             </a>
             <a
               href="#my-list"
-              nClick={(e) => handleLinkClick(e, "#my-list")}
+              onClick={(e) => handleLinkClick(e, "#my-list")}
               className="block py-2 text-white hover:bg-purple-400 transition-colors"
             >
               My List

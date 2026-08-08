@@ -183,7 +183,7 @@ function Footer() {
           </div>
         </div>
         <div className="border-t border-neutral-800 mt-10 pt-6 flex flex-col md:flex-row justify-between">
-            <p className="text-xs">&copy; CineVerse. All rights reserved. <br className="md:hidden" />
+            <p className="text-xs">&copy; CineVerse. All rights reserved <br className="md:hidden" />
             <span className="hidden md:inline">.</span>
             Powerd by{" "}
             <a href="#" className="text-purple-400 hover:text-purple-300">
