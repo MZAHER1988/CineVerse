@@ -14,15 +14,17 @@ function HeroSection() {
   useEffect(() => {
     if (loading || featuredMovies.length === 0) return;
 
+    let timeoutId;
+
     const intervall = setInterval(() => {
       setIsTransitioning(true);
-      setTimeout(() => {
+      timeoutId = setTimeout(() => {
         setCurrentSlide((prev) => (prev + 1) % featuredMovies.length);
         setIsTransitioning(false);
       }, 500);
     }, 8000);
 
-    return () => clearInterval(intervall);
+    return () => {clearInterval(intervall); clearTimeout(timeoutId);};
   }, [loading, featuredMovies.length]);
 
   if (loading || featuredMovies.length === 0) {
