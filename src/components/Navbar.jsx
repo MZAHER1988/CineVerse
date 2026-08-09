@@ -124,6 +124,13 @@ function Navbar() {
               Trending
             </a>
             <a
+              href="#upcoming"
+              onClick={(e) => handleLinkClick(e, "#upcoming")}
+              className="hover:text-purple-400 transition-all font-medium"
+            >
+              Upcoming
+            </a>
+            <a
               href="#popular"
               onClick={(e) => handleLinkClick(e, "#popular")}
               className="hover:text-purple-400 transition-all font-medium"

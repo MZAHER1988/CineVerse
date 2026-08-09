@@ -4,6 +4,7 @@ import {
   fetchPopularMovies,
   fetchTopRatedMovies,
   fetchTrendingMovies,
+  fetchUpcomingMovies,
 } from "../services/api";
 
 const MoviesContext = createContext();
@@ -11,6 +12,7 @@ export const useMovies = () => useContext(MoviesContext);
 
 export const MoviesProvider = ({ children }) => {
   const [trendingMovies, setTrendingMovies] = useState([]);
+  const [upcomingMovies, setUpcomingMovies] = useState([]);
   const [popularMovies, setPopularMovies] = useState([]);
   const [topRatedMovies, setTopRatedMovies] = useState([]);
   const [genres, setGenres] = useState([]);
@@ -22,14 +24,16 @@ export const MoviesProvider = ({ children }) => {
     const fetchMovieData = async () => {
       try {
         setLoading(true);
-        const [trending, popular, topRated, genreList] = await Promise.all([
+        const [trending, upcoming, popular, topRated, genreList] = await Promise.all([
           fetchTrendingMovies(),
+          fetchUpcomingMovies(),
           fetchPopularMovies(),
           fetchTopRatedMovies(),
           fetchGenres(),
         ]);
 
         setTrendingMovies(trending);
+        setUpcomingMovies(upcoming);
         setPopularMovies(popular);
         setTopRatedMovies(topRated);
         setGenres(genreList);
@@ -56,6 +60,7 @@ export const MoviesProvider = ({ children }) => {
     <MoviesContext
       value={{
         trendingMovies,
+        upcomingMovies,
         popularMovies,
         topRatedMovies,
         genres,

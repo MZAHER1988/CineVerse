@@ -27,6 +27,25 @@ export const fetchTrendingMovies = async () =>{
     }
 };
 
+export const fetchUpcomingMovies = async () => {
+    try {
+        const today = new Date().toISOString().split('T')[0];
+        
+        const response = await fetch(
+            `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=en-US&primary_release_date.gte=${today}&sort_by=popularity.desc&page=1`
+        );
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        return data.results;
+    } catch (error) {
+        console.error('Error Fetching upcoming movies', error);
+        return [];
+    }
+};
+
 export const fetchPopularMovies = async () =>{
     try{
         const response = await fetch(
@@ -38,7 +57,7 @@ export const fetchPopularMovies = async () =>{
         }
 
         const data = await response.json();
-        console.log(data);
+        //console.log(data);
         return data.results;
 
     }catch (error) {

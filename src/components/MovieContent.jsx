@@ -9,6 +9,7 @@ import { useMovies } from "../context/MoviesContext";
 function MovieContent() {
   const {
     trendingMovies,
+    upcomingMovies,
     popularMovies,
     topRatedMovies,
     selectedMovieId,
@@ -69,7 +70,12 @@ function MovieContent() {
           subtitle="Stay update with what everyone's watching"
           movies={trendingMovies}
           id="trending"
-          
+        />
+        <MovieSlider
+          title="Upcoming Movies"
+          subtitle="Get ready for the most anticipated releases"
+          movies={upcomingMovies}
+          id="upcoming"
         />
         <MovieSlider
           title="Popular Movies"
@@ -89,7 +95,7 @@ function MovieContent() {
       {/** Movie Details Section */}
       {/** <MoviesDetails />*/}
       {selectedMovieId && (
-        <MoviesDetails movieId={selectedMovieId} onClose={closeMoviesDetails}/>
+        <MoviesDetails movieId={selectedMovieId} onClose={closeMoviesDetails} />
       )}
     </>
   );

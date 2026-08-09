@@ -1,4 +1,5 @@
 import React from "react";
+import packageVersion from "../../package.json";
 
 function Footer() {
   return (
@@ -111,6 +112,14 @@ function Footer() {
               </li>
               <li>
                 <a
+                  href="#upcoming"
+                  className="hover:text-purple-400 transition-all"
+                >
+                  Upcoming
+                </a>
+              </li>
+              <li>
+                <a
                   href="#top-rated"
                   className="hover:text-purple-400 transition-all"
                 >
@@ -175,33 +184,54 @@ function Footer() {
                     focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-sm"
                 />
               </div>
-              <button className="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-lg
-              transition-all text-sm">
+              <button
+                className="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-lg
+              transition-all text-sm"
+              >
                 Subscribe
-              </button>   
+              </button>
             </form>
           </div>
         </div>
         <div className="border-t border-neutral-800 mt-10 pt-6 flex flex-col md:flex-row justify-between">
-            <p className="text-xs">&copy; CineVerse. All rights reserved <br className="md:hidden" />
-            <span className="hidden md:inline">.</span>
-            Powerd by{" "}
-            <a href="#" className="text-purple-400 hover:text-purple-300">
-                TMDB API
+          <p className="text-xs">
+            &copy; {new Date().getFullYear()} CineVerse. All rights reserved.{" "}
+            <br className="md:hidden" />
+            <span className="bg-neutral-800 text-neutral-400 px-2 py-0.5 rounded text-[10px] font-mono">
+              Version {packageVersion.version}
+            </span>
+            
+            
+          </p>
+          <p>
+            Movie data provided by{" "}
+            <a href="https://www.themoviedb.org/"
+      target="_blank"
+      rel="noreferrer"
+      className="text-purple-400 hover:text-purple-300 font-medium transition-colors">
+              TMDB API
+            </a></p>
+          <div className="flex space-x-4 mt-4 md:mt-0 text-xs">
+            <a
+              href="#privacy policy"
+              className="hover:text-purple-400 transition-all"
+            >
+              Privacy Policy
             </a>
-            </p>
-            <div className="flex space-x-4 mt-4 md:mt-0 text-xs">
-                <a href="#privacy policy" className="hover:text-purple-400 transition-all">
-                    Privacy Policy
-                </a>
-                <a href="#privacy policy" className="hover:text-purple-400 transition-all">
-                    Terms of Service
-                </a>
-                <a href="#privacy policy" className="hover:text-purple-400 transition-all">
-                    Cookie Policy
-                </a>
-            </div>
+            <a
+              href="#privacy policy"
+              className="hover:text-purple-400 transition-all"
+            >
+              Terms of Service
+            </a>
+            <a
+              href="#privacy policy"
+              className="hover:text-purple-400 transition-all"
+            >
+              Cookie Policy
+            </a>
           </div>
+        </div>
       </div>
     </footer>
   );

@@ -44,7 +44,7 @@ const GenreSection = () => {
   };
 
   return (
-    <section className="py-12 bg-neutral-900/50" id="">
+    <section className="py-12 bg-neutral-900/50" id="genres">
       <div className="container mx-auto px-4">
         <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">
           Browser by Genre
