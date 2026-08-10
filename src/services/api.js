@@ -142,7 +142,7 @@ export const fetchMovieDetails = async (movieId) =>{
 
     }catch (error) {
         console.error('Error Fetching movie details', error);
-        return [];
+        throw error; // Rethrow the error to be handled by the caller
 
     }
 };

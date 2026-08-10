@@ -10,11 +10,14 @@ function MoviesDetails({ movieId, onClose }) {
     async function getMoviesDetails() {
       try {
         setIsLoading(true);
+        setIsError(null);
+        setMovie(null);
+
         const movieData = await fetchMovieDetails(movieId);
         setMovie(movieData);
       } catch (err) {
-        console.error("Faild to loading movie details, please try again.");
-        setIsError(err.message || "Failed to load details");
+        console.error("Failed to load movie details. Please try again.");
+        setIsError(err.message || "Could not load movies. Please try again.");
       } finally {
         setIsLoading(false);
       }
@@ -106,7 +109,7 @@ function MoviesDetails({ movieId, onClose }) {
                 Failed to load movie details. Please try again later.
               </h2>
               <p className="mt-2 text-neutral-400">{error}</p>
-              <button className="mt-6 bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-xl">
+              <button onClick={onClose} className="mt-6 bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-xl">
                 Close
               </button>
             </div>
