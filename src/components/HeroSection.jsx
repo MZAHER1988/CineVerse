@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useMovies } from "../context/MoviesContext";
 import { getImageURL } from "../services/api";
 

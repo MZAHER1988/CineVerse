@@ -1,31 +1,41 @@
-import react, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useMovies } from "../context/MoviesContext";
 import { fetchMoviesByGenre, getImageURL } from "../services/api";
 
 const GenreSection = () => {
   const { genres, loading, openMoviesDetails } = useMovies();
-  const [selectedGenre, setSelectedGenre] = useState(null);
+  const [selectedGenre, setSelectedGenre] = useState(null); // Initialize with the first genre if available
   const [genreMovies, setGenreMovies] = useState([]);
   const [loadingGenreMovies, setLoadingGenreMovies] = useState(false);
 
+  /** 
   useEffect(() => {
     if (!loading && genres.length > 0) {
       setSelectedGenre(genres[0]);
     }
   }, [loading, genres]);
+*/
+  /** 
+  useEffect(() => {
+    if (!selectedGenre && genres.length > 0) {
+      setSelectedGenre(genres[0]);
+    }
+  }, [selectedGenre, genres]);
+  */
+  const activeGenre = selectedGenre || genres[0] || null;
 
   useEffect(() => {
     const loadGenreMovies = async () => {
-      if (!selectedGenre) return;
+      if (!activeGenre) return;
       setLoadingGenreMovies(true);
-      const movies = await fetchMoviesByGenre(selectedGenre.id);
+      const movies = await fetchMoviesByGenre(activeGenre.id);
       setGenreMovies(movies.slice(0, 10));
       setLoadingGenreMovies(false);
     };
     loadGenreMovies();
-  }, [selectedGenre]);
+  }, [activeGenre]);
 
-  if (loading || !selectedGenre) {
+  if (loading || !activeGenre) {
     return (
       <section className="py-12 bg-neutral-900">
         <div className="container mx-auto px-4">
@@ -59,7 +69,7 @@ const GenreSection = () => {
                 <button
                   key={gen.id}
                   className={`px-4 py-2 rounded-md text-sm text-white transition-colors ${
-                    selectedGenre?.id === gen.id
+                    activeGenre?.id === gen.id
                       ? "bg-purple-600 text-white"
                       : "bg-neutral-800 text-neutral-300 hover:bg-neutral-700"
                   }`}
@@ -83,12 +93,21 @@ const GenreSection = () => {
             {/** Map Method */}
             {genreMovies.map((movie) => {
               return (
-                <div key={movie.id} onClick={() => openMoviesDetails(movie.id)} className="group cursor-pointer">
+                <div
+                  key={movie.id}
+                  onClick={() => openMoviesDetails(movie.id)}
+                  className="group cursor-pointer"
+                >
                   <div className="relative rounded-lg overflow-hidden bg-neutral-800">
                     <div className="aspect-2/3">
                       <img
                         src={getImageURL(movie.poster_path, "w500")}
                         alt={movie.title}
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src =
+                            "https://placehold.co/400x600?text=No+Image+Available";
+                        }}
                         className="w-full h-full object-cover transition-all 
                         duration-300 group-hover:scale-110 group-hover:opacity-35"
                       />

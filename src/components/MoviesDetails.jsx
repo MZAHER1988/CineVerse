@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchMovieDetails, getImageURL } from "../services/api";
 
 function MoviesDetails({ movieId, onClose }) {
@@ -109,7 +109,10 @@ function MoviesDetails({ movieId, onClose }) {
                 Failed to load movie details. Please try again later.
               </h2>
               <p className="mt-2 text-neutral-400">{error}</p>
-              <button onClick={onClose} className="mt-6 bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-xl">
+              <button
+                onClick={onClose}
+                className="mt-6 bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-xl"
+              >
                 Close
               </button>
             </div>

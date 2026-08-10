@@ -1,13 +1,12 @@
-import React, { useState, useRef } from "react";
-import { BottleWine, Subscript } from "lucide-react";
+import { useState, useRef } from "react";
 import { getImageURL } from "../services/api";
 import { useMovies } from "../context/MoviesContext";
 
 function MovieSlider({ title, movies, subtitle, id = "" }) {
   const sliderRef = useRef(null);
   const [isScrolling, setIsScrolling] = useState(false);
-  const [hoverMovieId, setHoverMovieId] = useState(null);
-  const {openMoviesDetails} = useMovies();
+  //const [hoverMovieId, setHoverMovieId] = useState(null);
+  const { openMoviesDetails } = useMovies();
 
   const scroll = (direction) => {
     if (isScrolling) return;
@@ -101,7 +100,7 @@ function MovieSlider({ title, movies, subtitle, id = "" }) {
           <div
             className="flex space-x-4 overflow-x-auto scrollbar-hide pb-4 snap-x"
             ref={sliderRef}
-            style={{ scrollbarWidth: "none", msOverflowStyle: "none"}}
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
             {/** Conditional Rendering */}
             {movies.map((movie) => {
@@ -109,8 +108,8 @@ function MovieSlider({ title, movies, subtitle, id = "" }) {
                 <div
                   className="min-w-[200px] md:min-w-[240px] snap-start relative group cursor-pointer"
                   key={movie.id}
-                  onMouseEnter={() => setHoverMovieId(movie.id)}
-                  onMouseLeave={() => setHoverMovieId(null)}
+                  //onMouseEnter={() => setHoverMovieId(movie.id)}
+                  //onMouseLeave={() => setHoverMovieId(null)}
                   onClick={() => handleMovieClick(movie.id)}
                 >
                   <div className="rounded-lg overflow-hidden bg-neutral-800">
@@ -127,8 +126,7 @@ function MovieSlider({ title, movies, subtitle, id = "" }) {
                       <div
                         className={`absolute inset-0 bg-gradient-to-t from-neutral-900/90 
                           via-neutral-900/40 to-transparent opacity-0 group-hover:opacity-100 
-                          transition-all duration-300 flex flex-col justify-end p-4`
-                        }
+                          transition-all duration-300 flex flex-col justify-end p-4`}
                       >
                         <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 space-y-3">
                           <div className="flex items-center justify-between">
@@ -157,7 +155,7 @@ function MovieSlider({ title, movies, subtitle, id = "" }) {
                           <button
                             className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 px-4 rounded-md
                               flex items-center justify-center gap-1 transition-all text-sm"
-                              onClick={() => openMoviesDetails(currentMovie.id)}
+                            onClick={() => openMoviesDetails(movie.id)}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"

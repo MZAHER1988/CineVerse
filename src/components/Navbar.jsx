@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useMovies } from "../context/MoviesContext";
 import { searchMovies, getImageURL } from "../services/api";
 
@@ -76,7 +76,6 @@ function Navbar() {
     setIsMobileMenuOpen(false);
   };
 
-
   const handleLinkClick = (e, href) => {
     e.preventDefault();
     const target = document.querySelector(href);
@@ -107,8 +106,11 @@ function Navbar() {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <a href="home" className="flex items-center"
-            onClick={(e) => handleLinkClick(e, "#home")}>
+            <a
+              href="home"
+              className="flex items-center"
+              onClick={(e) => handleLinkClick(e, "#home")}
+            >
               <span className="text-purple-500 font-bold text-3xl">
                 Cine<span className="text-white font-bold text-3xl">Verse</span>
               </span>
@@ -284,7 +286,7 @@ function Navbar() {
             className="md:hidden text-purple-500"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle mobile menu"
-            aria-expanded={isMobileMenuOpen} 
+            aria-expanded={isMobileMenuOpen}
           >
             {/* Hamburger Icon */}
 

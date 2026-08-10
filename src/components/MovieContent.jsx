@@ -1,9 +1,7 @@
-import React from "react";
 import HeroSection from "./HeroSection";
 import MovieSlider from "./MovieSlider";
 import GenreSection from "./GenreSection";
 import MoviesDetails from "./MoviesDetails";
-import Footer from "./Footer";
 import { useMovies } from "../context/MoviesContext";
 
 function MovieContent() {

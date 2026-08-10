@@ -1,4 +1,3 @@
-import React from "react";
 import packageVersion from "../../package.json";
 
 function Footer() {
@@ -200,17 +199,18 @@ function Footer() {
             <span className="bg-neutral-800 text-neutral-400 px-2 py-0.5 rounded text-[10px] font-mono">
               Version {packageVersion.version}
             </span>
-            
-            
           </p>
           <p>
             Movie data provided by{" "}
-            <a href="https://www.themoviedb.org/"
-      target="_blank"
-      rel="noreferrer"
-      className="text-purple-400 hover:text-purple-300 font-medium transition-colors">
+            <a
+              href="https://www.themoviedb.org/"
+              target="_blank"
+              rel="noreferrer"
+              className="text-purple-400 hover:text-purple-300 font-medium transition-colors"
+            >
               TMDB API
-            </a></p>
+            </a>
+          </p>
           <div className="flex space-x-4 mt-4 md:mt-0 text-xs">
             <a
               href="#privacy policy"
