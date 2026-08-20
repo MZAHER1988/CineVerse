@@ -43,56 +43,59 @@ function MovieSlider({ title, movies, subtitle, id = "" }) {
   return (
     <section className="py-12" id={id}>
       <div className="container mx-auto px-4">
-        <div className="flex items-baseline justify-between mb-8">
-          <div className="text-2xl md:text-3xl font-bold text-white">
-            <h2>{title}</h2>
-            {/** Conditional Rendering */}
-            {subtitle && (
-              <p className="text-neutral-400 text-sm mt-1">{subtitle}</p>
-            )}
-          </div>
-          <div className="hidden md:flex space-x-2">
-            <button
-              className="bg-neutral-800/70 hover:bg-neutral-700 text-white p-2 rounded-full transition-all"
-              aria-label="Scroll Left"
-              onClick={() => scroll("left")}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                className="w-5 h-5"
-                stroke="currentColor"
+        <div className="mb-6">
+          <div className="flex items-baseline justify-between mb-3">
+            <div className="text-2xl md:text-3xl font-bold text-white">
+              <h2>{title}</h2>
+              {/** Conditional Rendering */}
+              {subtitle && (
+                <p className="text-neutral-400 text-sm mt-1">{subtitle}</p>
+              )}
+            </div>
+            <div className="hidden md:flex space-x-2">
+              <button
+                className="bg-neutral-800/70 hover:bg-neutral-700 text-white p-2 rounded-full transition-all"
+                aria-label="Scroll Left"
+                onClick={() => scroll("left")}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-            </button>
-            <button
-              className="bg-neutral-800/70 hover:bg-neutral-700 text-white p-2 rounded-full transition-all"
-              aria-label="Scroll Right"
-              onClick={() => scroll("right")}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                className="w-5 h-5"
-                stroke="currentColor"
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  className="w-5 h-5"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 19l-7-7 7-7"
+                  />
+                </svg>
+              </button>
+              <button
+                className="bg-neutral-800/70 hover:bg-neutral-700 text-white p-2 rounded-full transition-all"
+                aria-label="Scroll Right"
+                onClick={() => scroll("right")}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  className="w-5 h-5"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
+          <div className="w-2/3 h-[3px] bg-gradient-to-r from-purple-600 via-purple-500/50 to-transparent" />
         </div>
 
         {/** Movie Slider */}

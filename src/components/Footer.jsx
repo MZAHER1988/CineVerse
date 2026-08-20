@@ -156,7 +156,7 @@ function Footer() {
               </li>
               <li>
                 <a href="#" className="hover:text-purple-400">
-                  FQA
+                  FAQ
                 </a>
               </li>
               <li>
@@ -174,7 +174,7 @@ function Footer() {
             <p className="text-sm mb-4">
               Stay up to date with the latest movies and news
             </p>
-            <form className="space-y-3">
+            <form className="space-y-3" onSubmit={(e) => e.preventDefault()}>   
               <div className="relative">
                 <input
                   type="email"
@@ -219,13 +219,13 @@ function Footer() {
               Privacy Policy
             </a>
             <a
-              href="#privacy policy"
+              href="#terms-of-service"
               className="hover:text-purple-400 transition-all"
             >
               Terms of Service
             </a>
             <a
-              href="#privacy policy"
+              href="#cookie-policy"
               className="hover:text-purple-400 transition-all"
             >
               Cookie Policy

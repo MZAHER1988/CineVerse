@@ -61,7 +61,7 @@ const GenreSection = () => {
         </h2>
 
         {/** Genre Tabs */}
-        <div className="mb-8 overflow-x-auto pb-2">
+        <div className="mb-3 overflow-x-auto pb-2">
           <div className="flex space-x-2 min-width-max">
             {/** Conditional Rendering */}
             {genres.slice(0, 10).map((gen) => {
@@ -81,6 +81,8 @@ const GenreSection = () => {
             })}
           </div>
         </div>
+        <div className="w-2/3 h-[3px] bg-gradient-to-r from-purple-600 via-purple-500/50 to-transparent mb-6" />
+
         {/** Conditional Rendering for Genre Movies */}
         {loadingGenreMovies ? (
           <div className="h-64 flex items-center justify-center text-neutral-400 text-lg">
